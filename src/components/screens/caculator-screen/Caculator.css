@@ -1,0 +1,68 @@
+.content {
+    width: 100%;
+    height: 100%;
+}
+
+.screen {
+    height: 369px;
+}
+
+.caculator-display {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    text-align: right;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 15px;
+}
+
+.caculator-display .result {
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: -5px;
+    color: white;
+    font-size: 45px;
+}
+
+.caculator-keys {
+    width: 100%;
+    height: 255px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 5px;
+}
+
+.caculator-keys>button {
+    font-size: 20px;
+    width: calc((190px/4) + 2px);
+    height: calc(190px/4);
+    margin: 1px 5px;
+    border-radius: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#wide {
+    width: calc((190px/4)*2 + 14px);
+    border-radius: 50px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.number {
+    color: white;
+    background-color: rgb(56, 56, 56);
+}
+
+.special {
+    background-color: rgb(151, 151, 151);
+}
+
+.key--operator {
+    color: white;
+    background-color: #FF8C2D;
+}

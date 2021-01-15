@@ -93,6 +93,7 @@
   );
   border-radius: 100%;
   outline: none;
+  cursor: pointer;
 }
 
 .button .home-key::after {

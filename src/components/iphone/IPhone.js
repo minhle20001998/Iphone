@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
+import { Route, BrowserRouter, Switch, withRouter } from 'react-router-dom';
 import IphoneStyle from "./IPhone.css";
-import HomeScreen from "../screens/home-screen/HomeScreen"
 class IPhone extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            current_screen: 0,
-            screens: {
-                0: <HomeScreen></HomeScreen>
-            }
-        }
-    }
+
     render() {
-        const { screens, current_screen } = this.state;
         return <div className="Iphone">
             <div className="sensors">
                 <div className="top">
@@ -25,13 +16,15 @@ class IPhone extends Component {
             </div>
             <div className="screen">
                 {/* SCREEN */}
-                {screens[current_screen]}
+                {this.props.children}
             </div>
             <div className="button">
-                <span className="home-key" ></span>
+                <span className="home-key" onClick={() => { this.props.history.push("/") }} >
+
+                </span>
             </div>
         </div>
     }
 }
 
-export default IPhone;
+export default withRouter(IPhone);

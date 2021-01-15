@@ -38,6 +38,7 @@
     background-size: 45px 40px;
     background-repeat: no-repeat;
     background-position: center;
+    cursor: pointer;
 }
 
 .caculator-app {
