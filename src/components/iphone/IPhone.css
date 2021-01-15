@@ -1,0 +1,108 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+}
+
+.Iphone {
+  width: 280px;
+  height: 600px;
+  padding: 5px 8px 0px 8px;
+  border-radius: 30px;
+  border: 5px solid #d9dbdc;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sensors {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 20px;
+  /* background-color: yellowgreen; */
+}
+.light-sensor {
+  width: 6px;
+  height: 6px;
+  background-color: black;
+  border-radius: 100%;
+}
+.top {
+  margin-bottom: 10px;
+}
+.bottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+}
+.camera {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 100%;
+  left: 30%;
+}
+.ear-piece {
+  width: 50px;
+  height: 5px;
+  background-color: black;
+  border-radius: 25px;
+}
+.screen {
+  width: 100%;
+  height: 455px;
+  background-color: black;
+}
+
+.button {
+  width: 100%;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button .home-key {
+  display: block;
+  position: relative;
+  border: none;
+  padding: 25px;
+  background: linear-gradient(
+    135deg,
+    #303233 0%,
+    #b5b7b9 50%,
+    #f0f2f2 69%,
+    #303233 100%
+  );
+  border-radius: 100%;
+  outline: none;
+}
+
+.button .home-key::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 45px;
+  height: 45px;
+  background: white;
+  border-radius: 50%;
+  top: 2.5px;
+  left: 2.5px;
+}
