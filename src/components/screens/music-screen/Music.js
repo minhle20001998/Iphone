@@ -111,7 +111,7 @@ class Music extends Component {
             const timePercent = (audio.currentTime / audio.duration) * 1000;
             // console.log("did mount ", timePercent)
             // const currentBarLength = parseFloat(timePercent) * parseFloat(progressBarWidth);
-            document.querySelector(".trail").style.width = `${(timePercent / 1000) * 200}px`;
+            document.querySelector(".trail").style.width = `${(timePercent / 1000) * 200 - 1}px`;
             this.setCurrentBarLength(timePercent);
         }, 100)
     }

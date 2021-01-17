@@ -51,6 +51,8 @@
   height: 2px;
   background-color: #8d8d91;
   position: absolute;
+  border-radius: 5px;
+
 }
 
 .progress-bar {
@@ -63,6 +65,7 @@
   border: none;
   outline: none;
   appearance: none;
+  border-radius: 5px;
 }
 
 .progress-bar::-webkit-slider-thumb {
@@ -78,6 +81,21 @@
   cursor: pointer;
   /* Cursor on hover */
   border-radius: 100%;
+}
+
+.bar:hover .progress-bar {
+  height: 4px;
+}
+
+.bar:hover .progress-bar::-webkit-slider-thumb {
+  background-color: red;
+  width: 8px;
+  height: 8px;
+}
+
+.bar:hover .trail {
+  height: 4px;
+  background-color: red
 }
 
 .audio-time {
