@@ -31,7 +31,7 @@ class HomeScreen extends Component {
                 </div>
                 <div className="camera-app">
                 </div>
-                <div className="note-app">
+                <div className="music-app" onClick={() => { this.handleRedirect('/music') }}>
                 </div>
                 <div className="setting-app">
                 </div>

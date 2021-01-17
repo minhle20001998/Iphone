@@ -2,6 +2,7 @@ import Iphone from "./components/iphone/IPhone";
 import React, { Component } from 'react'
 import HomeScreen from "./components/screens/home-screen/HomeScreen"
 import Caculator from "./components/screens/caculator-screen/Caculator"
+import Music from "./components/screens/music-screen/Music"
 
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
@@ -31,6 +32,11 @@ class App extends Component {
             <Route path="/caculator">
               <Iphone >
                 <Caculator></Caculator>
+              </Iphone>
+            </Route>
+            <Route path="/music">
+              <Iphone >
+                <Music></Music>
               </Iphone>
             </Route>
 
