@@ -19,10 +19,10 @@ class Music extends Component {
         this.adjustVolume = this.adjustVolume.bind(this);
         this.mute = this.mute.bind(this);
         this.maxVol = this.maxVol.bind(this);
+        this.seeking = this.seeking.bind(this);
     }
 
     play() {
-        console.log(this.state.audio.currentTime);
         this.setMusicDuration();
         const { audio, isPlaying } = this.state;
         // this.state.audio.src = mp3;
@@ -64,24 +64,6 @@ class Music extends Component {
         this.moveVolumeSlider(barWidth)
     }
 
-    componentDidMount() {
-        const { audio } = this.state;
-        audio.src = mp3;
-        audio.load();
-        this.update = setInterval(() => {
-            this.setState({
-                currentTime: this.convertTime(Math.floor(this.state.audio.currentTime))
-            })
-        }, 500);
-    }
-
-    componentWillUnmount() {
-        const { audio } = this.state;
-        audio.src = ""
-        audio.load();
-    }
-
-
 
     setMusicDuration() {
         this.setState({
@@ -99,6 +81,72 @@ class Music extends Component {
         return finalTime;
     }
 
+    setCurrentBarLength(len) {
+        const currentBar = document.querySelector('.current-bar');
+        currentBar.style.width = `${len}px`;
+    }
+
+
+    seeking(e) {
+        const progressBar = document.querySelector('.progress-bar');
+        const { audio } = this.state;
+        const percentCurrentTime = e.nativeEvent.offsetX / progressBar.offsetWidth;
+        audio.currentTime = percentCurrentTime * audio.duration;
+
+    }
+
+    componentDidMount() {
+        const { audio } = this.state;
+        const progressBarWidth = document.querySelector('.progress-bar').offsetWidth;
+        // 
+        audio.src = mp3;
+        audio.load();
+        // 
+        audio.onended = () => {
+            this.setState({
+                isPlaying: false
+            })
+        }
+        this.handleHover();
+        this.update = setInterval(() => {
+            this.setState({
+                currentTime: this.convertTime(Math.floor(audio.currentTime))
+            });
+        }, 500);
+        this.updateCurrentBar = setInterval(() => {
+            const timePercent = (audio.currentTime / audio.duration);
+            const currentBarLength = parseFloat(timePercent) * parseFloat(progressBarWidth);
+            this.setCurrentBarLength(currentBarLength);
+        }, 100)
+    }
+
+    handleHover() {
+        // const progressBar = document.querySelector('.progress-bar');
+        // const currentBar = document.querySelector('.current-bar');
+        // const bgcolor = currentBar.style.backgroundColor;
+        // progressBar.addEventListener('mouseover', () => {
+        //     currentBar.style.backgroundColor = '#fe2d55';
+        // })
+        // progressBar.addEventListener('mouseout', () => {
+        //     currentBar.style.backgroundColor = bgcolor;
+
+        // })
+
+    }
+
+    componentWillUnmount() {
+        const { audio } = this.state;
+        audio.src = ""
+        audio.load();
+        clearInterval(this.update);
+        clearInterval(this.updateCurrentBar);
+
+    }
+
+
+
+
+
     render() {
         const { isPlaying, audioDuration, currentTime } = this.state;
         return <>
@@ -111,8 +159,8 @@ class Music extends Component {
                     <div className="album-cover"></div>
 
                     <div className="media-player">
-                        <div className="progress-bar">
-                            <div className="slider">
+                        <div className="progress-bar" onClick={this.seeking}>
+                            <div className="current-bar">
                             </div>
                         </div>
                         <div className="audio-time">
