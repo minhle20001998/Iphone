@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import MusicStyle from './Music.css'
 import mp3 from './Starboy.mp3'
 import Statusbar from '../../Statusbar/Statusbar'
-import { AiFillDownSquare } from 'react-icons/ai';
 
 // import music from ''
 class Music extends Component {
@@ -14,7 +13,7 @@ class Music extends Component {
             audio: new Audio(),
             isPlaying: false,
             audioDuration: "0:00",
-            currentTime: "0:00"
+            currentTime: "00:00"
         }
         this.adjustVolume = this.adjustVolume.bind(this);
         this.mute = this.mute.bind(this);
@@ -39,9 +38,8 @@ class Music extends Component {
 
     adjustVolume(e) {
         const { audio } = this.state;
-        const volumePercent = e.nativeEvent.offsetX / e.target.offsetWidth;
-        audio.volume = volumePercent;
-        this.moveVolumeSlider(e.nativeEvent.offsetX)
+        const volume = e.target.value / 100;
+        audio.volume = volume;
     }
 
     moveVolumeSlider(pos) {
@@ -52,16 +50,14 @@ class Music extends Component {
 
     mute() {
         const { audio } = this.state;
+        document.querySelector(".volume-bar").value = 0;
         audio.volume = 0;
-        this.moveVolumeSlider(0)
     }
 
     maxVol() {
-        const bar = document.querySelector('.bar');
-        const barWidth = bar.offsetWidth;
         const { audio } = this.state;
+        document.querySelector(".volume-bar").value = 100;
         audio.volume = 1;
-        this.moveVolumeSlider(barWidth)
     }
 
 
@@ -82,22 +78,21 @@ class Music extends Component {
     }
 
     setCurrentBarLength(len) {
-        const currentBar = document.querySelector('.current-bar');
-        currentBar.style.width = `${len}px`;
+        const currentBar = document.querySelector('.progress-bar');
+        currentBar.value = `${len}`;
     }
 
 
     seeking(e) {
-        const progressBar = document.querySelector('.progress-bar');
         const { audio } = this.state;
-        const percentCurrentTime = e.nativeEvent.offsetX / progressBar.offsetWidth;
-        audio.currentTime = percentCurrentTime * audio.duration;
-
+        const progress = document.querySelector('.progress-bar');
+        const value = progress.value;
+        const moveTo = (value / 1000) * audio.duration;
+        audio.currentTime = moveTo;
     }
 
     componentDidMount() {
         const { audio } = this.state;
-        const progressBarWidth = document.querySelector('.progress-bar').offsetWidth;
         // 
         audio.src = mp3;
         audio.load();
@@ -107,32 +102,20 @@ class Music extends Component {
                 isPlaying: false
             })
         }
-        this.handleHover();
         this.update = setInterval(() => {
             this.setState({
                 currentTime: this.convertTime(Math.floor(audio.currentTime))
             });
         }, 500);
         this.updateCurrentBar = setInterval(() => {
-            const timePercent = (audio.currentTime / audio.duration);
-            const currentBarLength = parseFloat(timePercent) * parseFloat(progressBarWidth);
-            this.setCurrentBarLength(currentBarLength);
+            const timePercent = (audio.currentTime / audio.duration) * 1000;
+            // console.log("did mount ", timePercent)
+            // const currentBarLength = parseFloat(timePercent) * parseFloat(progressBarWidth);
+            document.querySelector(".trail").style.width = `${(timePercent / 1000) * 200}px`;
+            this.setCurrentBarLength(timePercent);
         }, 100)
     }
 
-    handleHover() {
-        // const progressBar = document.querySelector('.progress-bar');
-        // const currentBar = document.querySelector('.current-bar');
-        // const bgcolor = currentBar.style.backgroundColor;
-        // progressBar.addEventListener('mouseover', () => {
-        //     currentBar.style.backgroundColor = '#fe2d55';
-        // })
-        // progressBar.addEventListener('mouseout', () => {
-        //     currentBar.style.backgroundColor = bgcolor;
-
-        // })
-
-    }
 
     componentWillUnmount() {
         const { audio } = this.state;
@@ -142,10 +125,6 @@ class Music extends Component {
         clearInterval(this.updateCurrentBar);
 
     }
-
-
-
-
 
     render() {
         const { isPlaying, audioDuration, currentTime } = this.state;
@@ -159,9 +138,9 @@ class Music extends Component {
                     <div className="album-cover"></div>
 
                     <div className="media-player">
-                        <div className="progress-bar" onClick={this.seeking}>
-                            <div className="current-bar">
-                            </div>
+                        <div className="bar">
+                            <div className="trail"></div>
+                            <input type="range" min="0" max="1000" className="progress-bar" onChange={this.seeking} />
                         </div>
                         <div className="audio-time">
                             <span className="current-duration">{`${currentTime}`}</span>
@@ -178,10 +157,7 @@ class Music extends Component {
                         <div className="volume">
                             <i className="fas fa-volume-down " onClick={this.mute}></i>
                             <div className="bar">
-                                <div className="volume-slider">
-                                </div>
-                                <div className="volume-bar" onClick={this.adjustVolume}>
-                                </div>
+                                <input type="range" min="0" max="100" className="volume-bar" onInput={this.adjustVolume} />
                             </div>
                             <i className="fas fa-volume-up" onClick={this.maxVol}></i>
                         </div>
